@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { publicFetch } from "@/lib/api";
 import ServiceCard, { Service } from "@/components/ServiceCard";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const categories = [
   "Haircut & Styling",
@@ -14,12 +16,13 @@ const categories = [
   "Spa & Massage",
 ];
 
-export default function BrowseServicesPage() {
+function BrowseContent() {
+  const searchParams = useSearchParams();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(searchParams.get("category") || "");
   const [sort, setSort] = useState("");
 
   useEffect(() => {
@@ -81,5 +84,12 @@ export default function BrowseServicesPage() {
         </div>
       )}
     </div>
+  );
+}
+export default function BrowseServicesPage() {
+  return (
+    <Suspense fallback={<p className="py-10 text-center">Loading...</p>}>
+      <BrowseContent />
+    </Suspense>
   );
 }
