@@ -21,6 +21,7 @@ export default function Navbar() {
   async function handleLogout() {
     await authClient.signOut();
     setOpen(false);
+    setMenu(false);
     toast.success("Logged out");
     router.push("/");
   }
@@ -29,6 +30,9 @@ export default function Navbar() {
     <>
       <Link href="/" className="hover:text-rose-600" onClick={() => setMenu(false)}>Home</Link>
       <Link href="/services" className="hover:text-rose-600" onClick={() => setMenu(false)}>Browse Services</Link>
+      {user && (
+        <Link href="/salon" className="hover:text-rose-600" onClick={() => setMenu(false)}>Salon Details</Link>
+      )}
     </>
   );
 
@@ -36,8 +40,8 @@ export default function Navbar() {
     <nav className="sticky top-0 z-40 border-b bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link href="/" aria-label="SalonBook home">
-  <Logo size={38} />
-</Link>
+          <Logo size={38} />
+        </Link>
         <div className="hidden items-center gap-6 md:flex">{links}</div>
 
         <div className="flex items-center gap-3">
