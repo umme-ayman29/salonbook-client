@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
+import GoogleButton from "@/components/GoogleButton";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -28,13 +29,6 @@ export default function SignInPage() {
     router.push(role === "admin" ? "/dashboard/admin" : "/dashboard/customer");
   }
 
-  async function handleGoogle() {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/dashboard/customer",
-    });
-  }
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-rose-50 px-4">
       <form
@@ -53,10 +47,13 @@ export default function SignInPage() {
           {loading ? "Signing in..." : "Sign In"}
         </button>
 
-        <button type="button" onClick={handleGoogle}
-          className="w-full rounded border p-2">
-          Continue with Google
-        </button>
+        <div className="flex items-center gap-3 text-sm text-gray-400">
+          <span className="h-px flex-1 bg-gray-200" />
+          or
+          <span className="h-px flex-1 bg-gray-200" />
+        </div>
+
+        <GoogleButton />
 
         <p className="text-sm">
           New here?{" "}
